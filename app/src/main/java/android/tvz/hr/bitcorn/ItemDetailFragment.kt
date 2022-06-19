@@ -3,12 +3,19 @@ package android.tvz.hr.bitcorn
 import android.os.Bundle
 import android.tvz.hr.bitcorn.databinding.FragmentItemDetailBinding
 import android.tvz.hr.bitcorn.db.Coin
+import android.tvz.hr.bitcorn.retrofit.CoinServiceInterface
+import android.tvz.hr.bitcorn.retrofit.ServiceGenerator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * A fragment representing a single Item detail screen.
@@ -18,10 +25,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
  */
 class ItemDetailFragment : Fragment() {
 
-    /**
-     * The placeholder content this fragment is presenting.
-     */
-    private var item: Coin? = null
+    private var coin: Coin? = null
+    val API_URL = "http://10.0.2.2:8888"
 
     lateinit var itemDetailTextView: TextView
     private var toolbarLayout: CollapsingToolbarLayout? = null
@@ -41,13 +46,8 @@ class ItemDetailFragment : Fragment() {
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
 
-                val coinId = requireArguments().getString(ARG_ITEM_ID)
-                item = Coin(
-                    "bitcon",
-                    "btc",
-                    "Bitcoin"
-                )
-                println(item)
+                val coinId = requireArguments().getString(ARG_ITEM_ID) ?: return
+                fetchCoins(coinId)
             }
         }
     }
@@ -63,16 +63,43 @@ class ItemDetailFragment : Fragment() {
         toolbarLayout = binding.toolbarLayout
         itemDetailTextView = binding.itemDetail
 
-        updateContent()
 
         return rootView
     }
 
+    private fun fetchCoins(coinId: String) {
+        val client: CoinServiceInterface = ServiceGenerator().createService(
+            CoinServiceInterface::class.java,
+            API_URL
+        )
+
+        val fetchedCoin: Call<Coin> = client.fetchCoin(coinId)
+
+        fetchedCoin.enqueue(object : Callback<Coin> {
+            override fun onResponse(
+                call: Call<Coin>,
+                response: Response<Coin>
+            ) {
+                if (response.isSuccessful) {
+                    coin = response.body()!!
+                    println("///////////// SELECTED COIN" + coin)
+                    updateContent()
+                }
+            }
+
+            override fun onFailure(call: Call<Coin>, t: Throwable) {
+                println(t.message)
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
     private fun updateContent() {
-        toolbarLayout?.title = item?.name
+        toolbarLayout?.title = coin?.name
 
         // Show the placeholder content as text in a TextView.
-        item?.let {
+        coin?.let {
             itemDetailTextView.text = it.name
         }
     }
