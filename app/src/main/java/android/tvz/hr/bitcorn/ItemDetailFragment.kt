@@ -1,5 +1,6 @@
 package android.tvz.hr.bitcorn
 
+import android.net.Uri
 import android.os.Bundle
 import android.tvz.hr.bitcorn.databinding.FragmentItemDetailBinding
 import android.tvz.hr.bitcorn.db.Coin
@@ -8,10 +9,13 @@ import android.tvz.hr.bitcorn.retrofit.ServiceGenerator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,6 +33,7 @@ class ItemDetailFragment : Fragment() {
     val API_URL = "http://10.0.2.2:8888"
 
     lateinit var itemDetailTextView: TextView
+    lateinit var coinImage: ImageView
     private var toolbarLayout: CollapsingToolbarLayout? = null
 
     private var _binding: FragmentItemDetailBinding? = null
@@ -38,6 +43,7 @@ class ItemDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Fresco.initialize(context);
         super.onCreate(savedInstanceState)
 
         arguments?.let {
@@ -60,8 +66,10 @@ class ItemDetailFragment : Fragment() {
         _binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
+
         toolbarLayout = binding.toolbarLayout
         itemDetailTextView = binding.itemDetail
+        coinImage = binding.coinImage!!
 
 
         return rootView
@@ -101,6 +109,10 @@ class ItemDetailFragment : Fragment() {
         // Show the placeholder content as text in a TextView.
         coin?.let {
             itemDetailTextView.text = it.name
+
+            val uri = Uri.parse(it?.image)
+            val draweeView = coinImage as SimpleDraweeView
+            draweeView.setImageURI(uri)
         }
     }
 
