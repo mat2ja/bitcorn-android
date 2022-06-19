@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.tvz.hr.bitcorn.databinding.FragmentItemListBinding
 import android.tvz.hr.bitcorn.databinding.ItemListContentBinding
 import android.tvz.hr.bitcorn.db.Coin
-import android.tvz.hr.bitcorn.db.DatabaseHelper
-import android.view.KeyEvent
+import android.tvz.hr.bitcorn.retrofit.CoinServiceInterface
+import android.tvz.hr.bitcorn.retrofit.ServiceGenerator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * A Fragment representing a list of Pings. This fragment
@@ -27,35 +29,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ItemListFragment : Fragment() {
 
-    lateinit var coins: MutableList<Coin>;
-
-    /**
-     * Method to intercept global key events in the
-     * item list fragment to trigger keyboard shortcuts
-     * Currently provides a toast when Ctrl + Z and Ctrl + F
-     * are triggered
-     */
-    private val unhandledKeyEventListenerCompat =
-        ViewCompat.OnUnhandledKeyEventListenerCompat { v, event ->
-            if (event.keyCode == KeyEvent.KEYCODE_Z && event.isCtrlPressed) {
-                Toast.makeText(
-                    v.context,
-                    "Undo (Ctrl + Z) shortcut triggered",
-                    Toast.LENGTH_LONG
-                ).show()
-                true
-            } else if (event.keyCode == KeyEvent.KEYCODE_F && event.isCtrlPressed) {
-                Toast.makeText(
-                    v.context,
-                    "Find (Ctrl + F) shortcut triggered",
-                    Toast.LENGTH_LONG
-                ).show()
-                true
-            }
-            false
-        }
-
     private var _binding: FragmentItemListBinding? = null
+
+    val API_URL = "http://10.0.2.2:8888"
+    var coins: MutableList<Coin> = arrayListOf()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -71,29 +48,51 @@ class ItemListFragment : Fragment() {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ViewCompat.addOnUnhandledKeyEventListener(view, unhandledKeyEventListenerCompat)
-
         val recyclerView: RecyclerView = binding.itemList
-
 
         // Leaving this not using view binding as it relies on if the view is visible the current
         // layout configuration (layout, layout-sw600dp)
         val itemDetailFragmentContainer: View? = view.findViewById(R.id.item_detail_nav_container)
 
-        setupRecyclerView(recyclerView, itemDetailFragmentContainer)
+        fetchCoins(recyclerView, itemDetailFragmentContainer)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val databaseHelper = DatabaseHelper(requireContext())
 
-        coins = databaseHelper.getCoins()
+    private fun fetchCoins(
+        recyclerView: RecyclerView,
+        itemDetailFragmentContainer: View?
+    ) {
+        val client: CoinServiceInterface = ServiceGenerator().createService(
+            CoinServiceInterface::class.java,
+            API_URL
+        )
 
-        println(coins)
+        val fetchCoins: Call<MutableList<Coin>> = client.fetchCoins()
 
+        fetchCoins.enqueue(object : Callback<MutableList<Coin>> {
+            override fun onResponse(
+                call: Call<MutableList<Coin>>,
+                response: Response<MutableList<Coin>>
+            ) {
+                if (response.isSuccessful) {
+                    coins = response.body()!!
+
+                    setupRecyclerView(recyclerView, itemDetailFragmentContainer)
+                }
+            }
+
+            override fun onFailure(call: Call<MutableList<Coin>>, t: Throwable) {
+                println(t.message)
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun setupRecyclerView(

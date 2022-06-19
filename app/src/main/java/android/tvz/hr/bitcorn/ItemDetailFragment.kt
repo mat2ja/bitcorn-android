@@ -3,7 +3,6 @@ package android.tvz.hr.bitcorn
 import android.os.Bundle
 import android.tvz.hr.bitcorn.databinding.FragmentItemDetailBinding
 import android.tvz.hr.bitcorn.db.Coin
-import android.tvz.hr.bitcorn.db.DatabaseHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,8 +35,6 @@ class ItemDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val databaseHelper = DatabaseHelper(this.requireContext())
-
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 // Load the placeholder content specified by the fragment
@@ -45,7 +42,6 @@ class ItemDetailFragment : Fragment() {
                 // to load content from a content provider.
 
                 val coinId = requireArguments().getString(ARG_ITEM_ID)
-//                item = databaseHelper.getCoinById(coinId)
                 item = Coin(
                     "bitcon",
                     "btc",
