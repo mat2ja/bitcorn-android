@@ -66,11 +66,9 @@ class ItemDetailFragment : Fragment() {
         _binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-
         toolbarLayout = binding.toolbarLayout
         itemDetailTextView = binding.itemDetail
         coinImage = binding.coinImage!!
-
 
         return rootView
     }
@@ -90,7 +88,6 @@ class ItemDetailFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     coin = response.body()!!
-                    println("///////////// SELECTED COIN" + coin)
                     updateContent()
                 }
             }

@@ -1,5 +1,6 @@
 package android.tvz.hr.bitcorn
 
+import android.net.Uri
 import android.os.Bundle
 import android.tvz.hr.bitcorn.databinding.FragmentItemListBinding
 import android.tvz.hr.bitcorn.databinding.ItemListContentBinding
@@ -14,6 +15,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.view.SimpleDraweeView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,6 +52,7 @@ class ItemListFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Fresco.initialize(context);
         super.onCreate(savedInstanceState)
     }
 
@@ -121,8 +125,21 @@ class ItemListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
-            holder.idView.text = item.id
-            holder.contentView.text = item.name
+
+            item.apply {
+                holder.apply {
+
+                    coinRanking.text = "#$market_cap_rank"
+                    coinName.text = name
+                    coinSymbol.text = symbol.uppercase()
+
+                    val uri = Uri.parse(image)
+                    val draweeView = holder.coinCardImage
+                    draweeView.setImageURI(uri)
+                }
+
+            }
+
 
             with(holder.itemView) {
                 tag = item
@@ -147,8 +164,10 @@ class ItemListFragment : Fragment() {
 
         inner class ViewHolder(binding: ItemListContentBinding) :
             RecyclerView.ViewHolder(binding.root) {
-            val idView: TextView = binding.idText
-            val contentView: TextView = binding.content
+            val coinRanking: TextView = binding.coinCardRanking
+            val coinName: TextView = binding.coinCardName
+            val coinSymbol: TextView = binding.coinCardSymbol
+            val coinCardImage: SimpleDraweeView = binding.coinCardImage
         }
 
     }

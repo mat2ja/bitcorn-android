@@ -5,6 +5,7 @@ data class Coin(
     var symbol: String,
     var name: String,
     var image: String,
+    val market_cap_rank: Int,
     var current_price: Double,
     var market_cap: Number,
     var price_change_24h: Double,
