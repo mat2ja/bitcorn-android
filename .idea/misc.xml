@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/empty_tall_divider.xml" value="0.354" />
+        <entry key="app/src/main/res/layout-land/activity_item_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout-sw600dp/fragment_item_detail.xml" value="0.19969395562356543" />
         <entry key="app/src/main/res/layout-sw600dp/fragment_item_list.xml" value="0.2776639344262295" />
         <entry key="app/src/main/res/layout-v28/item_list_content.xml" value="0.36820652173913043" />

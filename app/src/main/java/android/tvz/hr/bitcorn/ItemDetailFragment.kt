@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.tvz.hr.bitcorn.databinding.FragmentItemDetailBinding
 import android.tvz.hr.bitcorn.db.Coin
 import android.tvz.hr.bitcorn.retrofit.CoinServiceInterface
@@ -17,10 +19,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,6 +53,9 @@ class ItemDetailFragment : Fragment() {
     lateinit var totalSupply: TextView
     lateinit var ath: TextView
     lateinit var maxSupply: TextView
+    lateinit var inputCoin: TextInputEditText
+    lateinit var inputUsd: TextInputEditText
+
 
     private var toolbarLayout: CollapsingToolbarLayout? = null
 
@@ -93,9 +100,36 @@ class ItemDetailFragment : Fragment() {
         totalSupply = binding.totalSupply!!
         ath = binding.ath!!
         maxSupply = binding.maxSupply!!
+        inputCoin = binding.inputCoin!!
+        inputUsd = binding.inputUsd!!
 
+
+        inputCoin.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                inputUsd.setText(coin?.let { convertToUsd(s, it.current_price) })
+            }
+        })
 
         return rootView
+    }
+
+    private fun convertToUsd(amount: CharSequence, rate: Double): String {
+        if (amount.isNotEmpty()) {
+            val usd = Integer.parseInt(amount.toString()) * rate
+            return formatNumber(usd)
+        }
+        return ""
     }
 
     private fun fetchCoins(coinId: String) {
@@ -221,6 +255,9 @@ class ItemDetailFragment : Fragment() {
             totalSupply.text = formatNumberInt(it.total_supply)
             maxSupply.text = formatNumberInt(it.max_supply)
             ath.text = formatPrice(it.ath)
+            inputCoin.hint = it.name
+            inputCoin.setText("1")
+            inputUsd.setText(formatNumber(it.current_price).toString())
 
             binding.fab.setOnClickListener {
                 openWebsite()

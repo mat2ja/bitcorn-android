@@ -36,7 +36,7 @@ class ItemListFragment : Fragment() {
 
     private var _binding: FragmentItemListBinding? = null
 
-    val API_URL = "http://10.0.2.2:8888"
+    private val API_URL = "http://10.0.2.2:8888"
     var coins: MutableList<Coin> = arrayListOf()
 
     // This property is only valid between onCreateView and
