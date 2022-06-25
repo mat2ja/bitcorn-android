@@ -1,5 +1,7 @@
 package android.tvz.hr.bitcorn
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -189,6 +191,20 @@ class ItemDetailFragment : Fragment() {
 
     }
 
+    fun openWebsite() {
+        val url = "https://www.coingecko.com/en/coins/${coin?.id}"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(
+                activity?.applicationContext,
+                "Something happened",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateContent() {
@@ -205,6 +221,10 @@ class ItemDetailFragment : Fragment() {
             totalSupply.text = formatNumberInt(it.total_supply)
             maxSupply.text = formatNumberInt(it.max_supply)
             ath.text = formatPrice(it.ath)
+
+            binding.fab.setOnClickListener {
+                openWebsite()
+            }
 
             val uri = Uri.parse(it?.image)
             val draweeView = coinImage as SimpleDraweeView

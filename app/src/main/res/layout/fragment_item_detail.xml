@@ -228,6 +228,6 @@
         android:layout_marginBottom="16dp"
         app:layout_anchor="@+id/item_detail_scroll_view"
         app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        app:srcCompat="@android:drawable/ic_menu_search" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
