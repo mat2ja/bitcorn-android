@@ -1,6 +1,7 @@
 package android.tvz.hr.bitcorn
 
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.tvz.hr.bitcorn.databinding.FragmentItemDetailBinding
 import android.tvz.hr.bitcorn.db.Coin
@@ -12,9 +13,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -22,6 +23,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * A fragment representing a single Item detail screen.
@@ -34,9 +37,17 @@ class ItemDetailFragment : Fragment() {
     private var coin: Coin? = null
     val API_URL = "http://10.0.2.2:8888"
 
+
+    lateinit var coinImage: ImageView
     lateinit var itemPrice: TextView
     lateinit var itemPriceNote: TextView
-    lateinit var coinImage: ImageView
+    lateinit var rank: TextView
+    lateinit var marketCap: TextView
+    lateinit var circSupply: TextView
+    lateinit var totalSupply: TextView
+    lateinit var ath: TextView
+    lateinit var maxSupply: TextView
+
     private var toolbarLayout: CollapsingToolbarLayout? = null
 
     private var _binding: FragmentItemDetailBinding? = null
@@ -71,9 +82,16 @@ class ItemDetailFragment : Fragment() {
         val rootView = binding.root
 
         toolbarLayout = binding.toolbarLayout
+        coinImage = binding.coinImage
+        rank = binding.rank!!
         itemPrice = binding.itemPrice
         itemPriceNote = binding.itemPriceNote
-        coinImage = binding.coinImage!!
+        marketCap = binding.marketCap!!
+        circSupply = binding.circSupply!!
+        totalSupply = binding.totalSupply!!
+        ath = binding.ath!!
+        maxSupply = binding.maxSupply!!
+
 
         return rootView
     }
@@ -87,6 +105,7 @@ class ItemDetailFragment : Fragment() {
         val fetchedCoin: Call<Coin> = client.fetchCoin(coinId)
 
         fetchedCoin.enqueue(object : Callback<Coin> {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(
                 call: Call<Coin>,
                 response: Response<Coin>
@@ -111,6 +130,25 @@ class ItemDetailFragment : Fragment() {
         return "$$formatted"
     }
 
+    private fun formatNumber(num: Double): String {
+        val df = DecimalFormat("#,###.##")
+        val number = df.format(num)
+        return "$number"
+    }
+
+    private fun formatNumberInt(num: Double): String {
+        val df = DecimalFormat("#,###")
+        val number = df.format(num)
+        return "$number"
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun formatDate(dt: CharSequence): String {
+//        2021-11-10T14:24:11.849Z
+        val localDateTime: LocalDateTime = LocalDateTime.parse("2018-12-14T09:55:00")
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        return formatter.format(localDateTime);
+    }
 
     private fun formatPercentage(change: Double): String {
         var indicator = ""
@@ -152,6 +190,7 @@ class ItemDetailFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateContent() {
         toolbarLayout?.title = coin?.name
 
@@ -160,6 +199,12 @@ class ItemDetailFragment : Fragment() {
             itemPrice.text = formatPrice(it.current_price)
             colorPrice(itemPriceNote, it.price_change_24h)
             setPriceNoteText(itemPriceNote, it.price_change_percentage_24h)
+            rank.text = "#${it.market_cap_rank}"
+            marketCap.text = formatPrice(it.market_cap)
+            circSupply.text = formatNumberInt(it.circulating_supply)
+            totalSupply.text = formatNumberInt(it.total_supply)
+            maxSupply.text = formatNumberInt(it.max_supply)
+            ath.text = formatPrice(it.ath)
 
             val uri = Uri.parse(it?.image)
             val draweeView = coinImage as SimpleDraweeView

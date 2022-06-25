@@ -51,7 +51,7 @@
                 android:id="@+id/coin_card_percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$24,000"
+                android:text="+5.75%"
                 android:textStyle="bold"
                 android:textSize="14dp" />
 

@@ -52,36 +52,167 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/text_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/text_margin_lg"
             android:layout_marginVertical="@dimen/text_margin_lg"
-            android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/item_price"
-                style="?android:attr/textAppearanceLarge"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/container_horizontal_margin"
-                android:paddingEnd="@dimen/container_horizontal_margin"
-                android:text="$23,500"
-                android:textStyle="bold"
-                android:textIsSelectable="true"
-                android:textSize="46dp" />
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/item_price_note"
-                style="?android:attr/textAppearanceLarge"
+                <TextView
+                    android:id="@+id/item_price"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="$23,500"
+                    android:textAlignment="textStart"
+                    android:textIsSelectable="true"
+                    android:textSize="54dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_price_note"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="Up in the last 24 hours"
+                    android:textIsSelectable="true"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/container_horizontal_margin"
-                android:paddingEnd="@dimen/container_horizontal_margin"
-                android:paddingBottom="24dp"
-                android:text="Up in the last 24 hours"
-                android:textIsSelectable="true"
-                android:textSize="12dp" />
+                android:columnCount="2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/CoinStatRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="14dp">
+
+                    <TextView
+                        style="@style/CoinStatLabel"
+                        android:text="Market Cap" />
+
+                    <TextView
+                        android:id="@+id/market_cap"
+                        style="@style/CoinStat"
+                        android:text="$1,456,250" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/CoinStatRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="14dp">
+
+                    <TextView
+                        style="@style/CoinStatLabel"
+                        android:text="Rank" />
+
+                    <TextView
+                        android:id="@+id/rank"
+                        style="@style/CoinStat"
+                        android:text="#1" />
+                </LinearLayout>
+            </GridLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/CoinStatRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="14dp">
+
+                    <TextView
+                        style="@style/CoinStatLabel"
+                        android:text="Circulating supply" />
+
+                    <TextView
+                        android:id="@+id/circ_supply"
+                        style="@style/CoinStat"
+                        android:text="19,076,000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/CoinStatRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="14dp">
+
+                    <TextView
+                        style="@style/CoinStatLabel"
+                        android:text="Total supply" />
+
+                    <TextView
+                        android:id="@+id/total_supply"
+                        style="@style/CoinStat"
+                        android:text="21,000,000" />
+                </LinearLayout>
+            </GridLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/CoinStatRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="14dp">
+
+                    <TextView
+                        style="@style/CoinStatLabel"
+                        android:text="Max supply" />
+
+                    <TextView
+                        android:id="@+id/max_supply"
+                        style="@style/CoinStat"
+                        android:text="$1,000,000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/CoinStatRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="14dp">
+
+                    <TextView
+                        style="@style/CoinStatLabel"
+                        android:text="All time high" />
+
+                    <TextView
+                        android:id="@+id/ath"
+                        style="@style/CoinStat"
+                        android:text="$69,000" />
+                </LinearLayout>
+
+
+            </GridLayout>
+
 
         </LinearLayout>
 
