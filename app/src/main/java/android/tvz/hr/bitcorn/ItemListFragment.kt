@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DecimalFormat
 
 /**
  * A Fragment representing a list of Pings. This fragment
@@ -123,6 +125,40 @@ class ItemListFragment : Fragment() {
         }
 
 
+        private fun formatPrice(price: Double): String {
+            val df = DecimalFormat("#,###.#####")
+            val formatted = df.format(price)
+            return "$$formatted"
+        }
+
+        private fun formatPercentage(change: Double): String {
+            var indicator = ""
+            if (change > 0) {
+                indicator = "+"
+            }
+            val df = DecimalFormat("#.##")
+            val percentage = df.format(change)
+            return "$indicator$percentage%"
+        }
+
+        private fun colorPrice(textView: TextView?, change: Double) {
+            var changeColor: Int? = null;
+            if (change > 0) {
+                changeColor = R.color.green
+            } else if (change < 0) {
+                changeColor = R.color.red
+            }
+            if (changeColor !== null) {
+                textView!!.setTextColor(
+                    ContextCompat.getColor(
+                        textView!!.context,
+                        changeColor
+                    )
+                )
+            }
+        }
+
+
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
 
@@ -131,7 +167,12 @@ class ItemListFragment : Fragment() {
 
                     coinRanking.text = "#$market_cap_rank"
                     coinName.text = name
+                    println(coinCardPercentage)
                     coinSymbol.text = symbol.uppercase()
+                    coinCardPercentage?.text = formatPercentage(price_change_percentage_24h)
+
+
+                    colorPrice(coinCardPercentage, price_change_24h)
 
                     val uri = Uri.parse(image)
                     val draweeView = holder.coinCardImage
@@ -168,9 +209,11 @@ class ItemListFragment : Fragment() {
             val coinName: TextView = binding.coinCardName
             val coinSymbol: TextView = binding.coinCardSymbol
             val coinCardImage: SimpleDraweeView = binding.coinCardImage
+            val coinCardPercentage: TextView? = binding.coinCardPercentage
         }
 
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

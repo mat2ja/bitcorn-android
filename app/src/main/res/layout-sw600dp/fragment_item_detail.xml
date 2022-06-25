@@ -1,16 +1,102 @@
-<!-- Adding the same root's ID for view binding as other layout configurations -->
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_detail_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ItemDetailHostActivity"
+    tools:ignore="MergeRootFrame">
 
-    <TextView
-        android:id="@+id/item_detail"
-        style="?android:attr/textAppearanceLarge"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/yellow_200"
+            app:collapsedTitleTextColor="@color/black"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleTextColor="@color/black"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/coin_image"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:placeholderImage="@drawable/money"
+                app:placeholderImageScaleType="centerInside"
+                fresco:actualImageScaleType="centerInside" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/detail_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/item_detail_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:textIsSelectable="true"
-        tools:context="android.tvz.hr.bitcorn.ItemDetailFragment" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/text_margin"
+            android:layout_marginVertical="@dimen/text_margin_lg"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_price"
+                style="?android:attr/textAppearanceLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/container_horizontal_margin"
+                android:paddingEnd="@dimen/container_horizontal_margin"
+                android:text="$23,500"
+                android:textStyle="bold"
+                android:textIsSelectable="true"
+                android:textSize="46dp" />
+
+            <TextView
+                android:id="@+id/item_price_note"
+                style="?android:attr/textAppearanceLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/container_horizontal_margin"
+                android:paddingEnd="@dimen/container_horizontal_margin"
+                android:paddingBottom="24dp"
+                android:text="Up in the last 24 hours"
+                android:textIsSelectable="true"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
+        app:layout_anchor="@+id/item_detail_scroll_view"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@android:drawable/stat_notify_chat" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,6 +9,7 @@ data class Coin(
     var current_price: Double,
     var market_cap: Number,
     var price_change_24h: Double,
+    val price_change_percentage_24h: Double,
     var ath: Double
 ) {
     override fun toString(): String {
