@@ -6,6 +6,7 @@
     android:id="@+id/item_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_bg"
     tools:context=".ItemDetailHostActivity"
     tools:ignore="MergeRootFrame">
 
@@ -54,16 +55,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/text_margin_lg"
-            android:layout_marginVertical="@dimen/text_margin_lg"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/text_margin_lg">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="24dp"
                 android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/text_margin_lg">
 
                 <TextView
                     android:id="@+id/item_price"
@@ -87,183 +88,198 @@
                     android:textSize="14dp" />
             </LinearLayout>
 
-
-            <GridLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    style="@style/CoinStatRow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginTop="14dp">
-
-                    <TextView
-                        style="@style/CoinStatLabel"
-                        android:text="Market Cap" />
-
-                    <TextView
-                        android:id="@+id/market_cap"
-                        style="@style/CoinStat"
-                        android:text="$1,456,250" />
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/CoinStatRow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginTop="14dp">
-
-                    <TextView
-                        style="@style/CoinStatLabel"
-                        android:text="Rank" />
-
-                    <TextView
-                        android:id="@+id/rank"
-                        style="@style/CoinStat"
-                        android:text="#1" />
-                </LinearLayout>
-            </GridLayout>
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    style="@style/CoinStatRow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginTop="14dp">
-
-                    <TextView
-                        style="@style/CoinStatLabel"
-                        android:text="Circulating supply" />
-
-                    <TextView
-                        android:id="@+id/circ_supply"
-                        style="@style/CoinStat"
-                        android:text="19,076,000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/CoinStatRow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginTop="14dp">
-
-                    <TextView
-                        style="@style/CoinStatLabel"
-                        android:text="Total supply" />
-
-                    <TextView
-                        android:id="@+id/total_supply"
-                        style="@style/CoinStat"
-                        android:text="21,000,000" />
-                </LinearLayout>
-            </GridLayout>
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    style="@style/CoinStatRow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginTop="14dp">
-
-                    <TextView
-                        style="@style/CoinStatLabel"
-                        android:text="Max supply" />
-
-                    <TextView
-                        android:id="@+id/max_supply"
-                        style="@style/CoinStat"
-                        android:text="$1,000,000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/CoinStatRow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginTop="14dp">
-
-                    <TextView
-                        style="@style/CoinStatLabel"
-                        android:text="All time high" />
-
-                    <TextView
-                        android:id="@+id/ath"
-                        style="@style/CoinStat"
-                        android:text="$69,000" />
-                </LinearLayout>
-            </GridLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/CoinStatLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Convert" />
+                android:layout_marginHorizontal="@dimen/text_margin_lg"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="8dp">
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:columnCount="2"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="20dp">
 
                     <LinearLayout
+                        style="@style/CoinStatRow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_marginRight="8dp">
+                        android:layout_columnWeight="1">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/input_coin"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Bitcorn"
-                            android:inputType="numberDecimal" />
+                        <TextView
+                            style="@style/CoinStatLabel"
+                            android:text="Market Cap" />
+
+                        <TextView
+                            android:id="@+id/market_cap"
+                            style="@style/CoinStat"
+                            android:text="$1,456,250" />
                     </LinearLayout>
 
                     <LinearLayout
+                        style="@style/CoinStatRow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1">
+
+                        <TextView
+                            style="@style/CoinStatLabel"
+                            android:text="Rank" />
+
+                        <TextView
+                            android:id="@+id/rank"
+                            style="@style/CoinStat"
+                            android:text="#1" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        style="@style/CoinStatRow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
-                        android:layout_marginLeft="8dp">
+                        android:layout_marginTop="14dp">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/input_usd"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:editable="false"
-                            android:hint="Dollars"
-                            android:inputType="numberDecimal"
-                            android:text="1" />
+                        <TextView
+                            style="@style/CoinStatLabel"
+                            android:text="Circ. supply" />
+
+                        <TextView
+                            android:id="@+id/circ_supply"
+                            style="@style/CoinStat"
+                            android:text="19,076,000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/CoinStatRow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginTop="14dp">
+
+                        <TextView
+                            style="@style/CoinStatLabel"
+                            android:text="Total supply" />
+
+                        <TextView
+                            android:id="@+id/total_supply"
+                            style="@style/CoinStat"
+                            android:text="21,000,000" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        style="@style/CoinStatRow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginTop="14dp">
+
+                        <TextView
+                            style="@style/CoinStatLabel"
+                            android:text="Max supply" />
+
+                        <TextView
+                            android:id="@+id/max_supply"
+                            style="@style/CoinStat"
+                            android:text="$1,000,000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/CoinStatRow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginTop="14dp">
+
+                        <TextView
+                            style="@style/CoinStatLabel"
+                            android:text="All time high" />
+
+                        <TextView
+                            android:id="@+id/ath"
+                            style="@style/CoinStat"
+                            android:text="$69,000" />
                     </LinearLayout>
                 </GridLayout>
-            </LinearLayout>
 
+            </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/text_margin_lg"
+                android:layout_marginTop="32dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        style="@style/CoinStatLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Convert" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:columnCount="2"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_marginRight="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/input_coin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Bitcorn"
+                                android:inputType="numberDecimal" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_marginLeft="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/input_usd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:hint="Dollars"
+                                android:inputType="numberDecimal"
+                                android:text="1" />
+                        </LinearLayout>
+                    </GridLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/button_notify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:layout_marginTop="32dp"
+                android:text="Notify me on price changes"
+                android:background="@color/yellow_700"
+                android:layout_marginHorizontal="@dimen/text_margin_lg"
+
+                />
         </LinearLayout>
 
 

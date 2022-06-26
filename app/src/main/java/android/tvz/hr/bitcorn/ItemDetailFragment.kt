@@ -1,7 +1,12 @@
 package android.tvz.hr.bitcorn
 
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,7 +24,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
@@ -79,9 +83,11 @@ class ItemDetailFragment : Fragment() {
                 fetchCoins(coinId)
             }
         }
+
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,6 +108,11 @@ class ItemDetailFragment : Fragment() {
         maxSupply = binding.maxSupply!!
         inputCoin = binding.inputCoin!!
         inputUsd = binding.inputUsd!!
+
+
+        binding.buttonNotify!!.setOnClickListener {
+            sendNotification()
+        }
 
 
         inputCoin.addTextChangedListener(object : TextWatcher {
@@ -225,7 +236,7 @@ class ItemDetailFragment : Fragment() {
 
     }
 
-    fun openWebsite() {
+    private fun openWebsite() {
         val url = "https://www.coingecko.com/en/coins/${coin?.id}"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         try {
@@ -280,5 +291,30 @@ class ItemDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendNotification() {
+        var builder = Notification.Builder(activity, ItemDetailHostActivity().MOJ_KANAL)
+            .setSmallIcon(android.R.drawable.star_on)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, android.R.drawable.btn_plus))
+            .setContentTitle("Price alert")
+            .setContentText("You will be notified of any major price changes")
+            .setSubText("Never miss a thing")
+
+        val resultIntent = Intent(activity, ItemDetailHostActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            resultIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        builder.setContentIntent(pendingIntent)
+
+        var notification: Notification = builder.build()
+        var notificationManager: NotificationManager =
+            activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(0, notification)
     }
 }

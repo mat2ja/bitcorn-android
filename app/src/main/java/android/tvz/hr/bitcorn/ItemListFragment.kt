@@ -205,6 +205,7 @@ class ItemListFragment : Fragment() {
 
         inner class ViewHolder(binding: ItemListContentBinding) :
             RecyclerView.ViewHolder(binding.root) {
+
             val coinRanking: TextView = binding.coinCardRanking
             val coinName: TextView = binding.coinCardName
             val coinSymbol: TextView = binding.coinCardSymbol

@@ -12,6 +12,7 @@
         android:theme="@style/Theme.Bitcorn"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+
         <activity
             android:name=".ItemDetailHostActivity"
             android:exported="true"

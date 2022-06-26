@@ -1,7 +1,5 @@
 package android.tvz.hr.bitcorn.db
 
-import java.util.*
-
 data class Coin(
     var id: String,
     var symbol: String,
