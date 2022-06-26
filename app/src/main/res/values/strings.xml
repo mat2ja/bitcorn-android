@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name">Bitcorn</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="price_alert">Price alert</string>
+    <string name="price_alert_content">You will be notified of any major price changes</string>
+    <string name="price_alert_sub">Never miss a thing</string>
+    <string name="error">"Something happened</string>
+    <string name="price_alert3">Price alert</string>
+    <string name="bitcorn">Bitcorn</string>
+    <string name="btr">BTR</string>
+    <string name="up_in_the_last_24_hours">Up in the last 24 hours</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="placholder_price">$23,500</string>
+    <string name="placeholder_mc">$1,456,250</string>
+    <string name="rank">Rank</string>
+    <string name="placeholder_rank">#1</string>
+    <string name="placholder_percent">+5.75%</string>
+    <string name="circ_supply">Circ. supply</string>
+    <string name="placholder_supply">19,076,000</string>
+    <string name="total_supply">Total supply</string>
+    <string name="placholder_max_supply">21,000,000</string>
+    <string name="max_supply">Max supply</string>
+    <string name="all_time_high">All time high</string>
+    <string name="placeholder_ath">$69,000</string>
+    <string name="convert">Convert</string>
+    <string name="dollars">Dollars</string>
+    <string name="notify_me_on_price_changes">Notify me on price changes</string>
+    <string name="share">Share</string>
+    <string name="share_msg">Share this coin with your friend</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

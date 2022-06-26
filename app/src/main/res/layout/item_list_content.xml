@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text="#1"
+            android:text="@string/placeholder_rank"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -47,15 +47,15 @@
                 android:id="@+id/coin_card_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bitcorn"
+                android:text="@string/bitcorn"
                 android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/coin_card_percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+5.75%"
+                android:text="@string/placholder_percent"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
             android:gravity="end"
-            android:text="BTR"
+            android:text="@string/btr"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textSize="14sp"
             android:textStyle="bold" />

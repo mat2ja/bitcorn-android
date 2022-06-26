@@ -71,10 +71,10 @@
                     style="?android:attr/textAppearanceLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="$23,500"
+                    android:text="@string/placholder_price"
                     android:textAlignment="textStart"
                     android:textIsSelectable="true"
-                    android:textSize="54dp"
+                    android:textSize="54sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -82,10 +82,10 @@
                     style="?android:attr/textAppearanceLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:text="Up in the last 24 hours"
+                    android:layout_marginStart="2dp"
+                    android:text="@string/up_in_the_last_24_hours"
                     android:textIsSelectable="true"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -111,12 +111,12 @@
 
                         <TextView
                             style="@style/CoinStatLabel"
-                            android:text="Market Cap" />
+                            android:text="@string/market_cap" />
 
                         <TextView
                             android:id="@+id/market_cap"
                             style="@style/CoinStat"
-                            android:text="$1,456,250" />
+                            android:text="@string/placeholder_mc" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -127,12 +127,12 @@
 
                         <TextView
                             style="@style/CoinStatLabel"
-                            android:text="Rank" />
+                            android:text="@string/rank" />
 
                         <TextView
                             android:id="@+id/rank"
                             style="@style/CoinStat"
-                            android:text="#1" />
+                            android:text="@string/placeholder_rank" />
                     </LinearLayout>
 
 
@@ -145,12 +145,12 @@
 
                         <TextView
                             style="@style/CoinStatLabel"
-                            android:text="Circ. supply" />
+                            android:text="@string/circ_supply" />
 
                         <TextView
                             android:id="@+id/circ_supply"
                             style="@style/CoinStat"
-                            android:text="19,076,000" />
+                            android:text="@string/placholder_supply" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -162,12 +162,12 @@
 
                         <TextView
                             style="@style/CoinStatLabel"
-                            android:text="Total supply" />
+                            android:text="@string/total_supply" />
 
                         <TextView
                             android:id="@+id/total_supply"
                             style="@style/CoinStat"
-                            android:text="21,000,000" />
+                            android:text="@string/placholder_max_supply" />
                     </LinearLayout>
 
 
@@ -180,12 +180,12 @@
 
                         <TextView
                             style="@style/CoinStatLabel"
-                            android:text="Max supply" />
+                            android:text="@string/max_supply" />
 
                         <TextView
                             android:id="@+id/max_supply"
                             style="@style/CoinStat"
-                            android:text="$1,000,000" />
+                            android:text="@string/placholder_max_supply" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -197,12 +197,12 @@
 
                         <TextView
                             style="@style/CoinStatLabel"
-                            android:text="All time high" />
+                            android:text="@string/all_time_high" />
 
                         <TextView
                             android:id="@+id/ath"
                             style="@style/CoinStat"
-                            android:text="$69,000" />
+                            android:text="@string/placeholder_ath" />
                     </LinearLayout>
                 </GridLayout>
 
@@ -227,7 +227,7 @@
                         style="@style/CoinStatLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Convert" />
+                        android:text="@string/convert" />
 
                     <GridLayout
                         android:layout_width="match_parent"
@@ -240,13 +240,13 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_marginRight="8dp">
+                            android:layout_marginEnd="8dp">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/input_coin"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Bitcorn"
+                                android:hint="@string/bitcorn"
                                 android:inputType="numberDecimal" />
                         </LinearLayout>
 
@@ -254,14 +254,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_marginLeft="8dp">
+                            android:layout_marginStart="8dp">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/input_usd"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:editable="false"
-                                android:hint="Dollars"
+                                android:hint="@string/dollars"
                                 android:inputType="numberDecimal"
                                 android:text="1" />
                         </LinearLayout>
@@ -273,13 +273,11 @@
                 android:id="@+id/button_notify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="16dp"
-                android:layout_marginTop="32dp"
-                android:text="Notify me on price changes"
-                android:background="@color/yellow_700"
                 android:layout_marginHorizontal="@dimen/text_margin_lg"
-
-                />
+                android:layout_marginTop="32dp"
+                android:background="@color/yellow_700"
+                android:paddingVertical="16dp"
+                android:text="@string/notify_me_on_price_changes" />
         </LinearLayout>
 
 

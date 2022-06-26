@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,9 +17,7 @@ import android.tvz.hr.bitcorn.databinding.FragmentItemDetailBinding
 import android.tvz.hr.bitcorn.db.Coin
 import android.tvz.hr.bitcorn.retrofit.CoinServiceInterface
 import android.tvz.hr.bitcorn.retrofit.ServiceGenerator
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -33,8 +32,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+
 
 /**
  * A fragment representing a single Item detail screen.
@@ -60,9 +58,8 @@ class ItemDetailFragment : Fragment() {
     lateinit var inputCoin: TextInputEditText
     lateinit var inputUsd: TextInputEditText
 
-
+    var mediaPlayer: MediaPlayer? = null
     private var toolbarLayout: CollapsingToolbarLayout? = null
-
     private var _binding: FragmentItemDetailBinding? = null
 
     // This property is only valid between onCreateView and
@@ -72,45 +69,47 @@ class ItemDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Fresco.initialize(context);
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        configureMedia()
 
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the placeholder content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
-
                 val coinId = requireArguments().getString(ARG_ITEM_ID) ?: return
                 fetchCoins(coinId)
             }
         }
-
     }
 
+    private fun configureMedia() {
+        mediaPlayer = MediaPlayer.create(context, R.raw.kaching)
+        mediaPlayer!!.isLooping = false
+        mediaPlayer!!.start()
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
         toolbarLayout = binding.toolbarLayout
         coinImage = binding.coinImage
-        rank = binding.rank!!
+        rank = binding.rank
         itemPrice = binding.itemPrice
         itemPriceNote = binding.itemPriceNote
-        marketCap = binding.marketCap!!
-        circSupply = binding.circSupply!!
-        totalSupply = binding.totalSupply!!
-        ath = binding.ath!!
-        maxSupply = binding.maxSupply!!
-        inputCoin = binding.inputCoin!!
-        inputUsd = binding.inputUsd!!
+        marketCap = binding.marketCap
+        circSupply = binding.circSupply
+        totalSupply = binding.totalSupply
+        ath = binding.ath
+        maxSupply = binding.maxSupply
+        inputCoin = binding.inputCoin
+        inputUsd = binding.inputUsd
 
 
-        binding.buttonNotify!!.setOnClickListener {
+        binding.buttonNotify.setOnClickListener {
             sendNotification()
         }
 
@@ -189,14 +188,6 @@ class ItemDetailFragment : Fragment() {
         return "$number"
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun formatDate(dt: CharSequence): String {
-//        2021-11-10T14:24:11.849Z
-        val localDateTime: LocalDateTime = LocalDateTime.parse("2018-12-14T09:55:00")
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        return formatter.format(localDateTime);
-    }
-
     private fun formatPercentage(change: Double): String {
         var indicator = ""
         if (change > 0) {
@@ -244,7 +235,7 @@ class ItemDetailFragment : Fragment() {
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(
                 activity?.applicationContext,
-                "Something happened",
+                R.string.error,
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -268,7 +259,7 @@ class ItemDetailFragment : Fragment() {
             ath.text = formatPrice(it.ath)
             inputCoin.hint = it.name
             inputCoin.setText("1")
-            inputUsd.setText(formatNumber(it.current_price).toString())
+            inputUsd.setText(formatNumber(it.current_price))
 
             binding.fab.setOnClickListener {
                 openWebsite()
@@ -317,4 +308,49 @@ class ItemDetailFragment : Fragment() {
             activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(0, notification)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.activity_menu, menu)
+        return super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // We are using switch case because multiple icons can be kept
+        when (item.itemId) {
+            R.id.action_share -> {
+                val sharingIntent = Intent(Intent.ACTION_SEND)
+
+                sharingIntent.type = "text/plain"
+
+                val shareBody = "Share ${coin?.name} with your friends"
+                val shareSubject = "Number go up"
+
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
+
+                startActivity(Intent.createChooser(sharingIntent, "Share via"))
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer!!.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer!!.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer!!.stop()
+        mediaPlayer!!.release()
+    }
+
 }
