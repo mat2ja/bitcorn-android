@@ -247,7 +247,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/bitcorn"
-                                android:inputType="numberDecimal" />
+                                android:inputType="numberDecimal"
+                                android:digits="0123456789.,"
+                                />
                         </LinearLayout>
 
                         <LinearLayout
@@ -263,6 +265,7 @@
                                 android:editable="false"
                                 android:hint="@string/dollars"
                                 android:inputType="numberDecimal"
+                                android:digits="0123456789."
                                 android:text="1" />
                         </LinearLayout>
                     </GridLayout>

@@ -70,13 +70,16 @@ class ItemDetailFragment : Fragment() {
         Fresco.initialize(context);
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        configureMedia()
 
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 val coinId = requireArguments().getString(ARG_ITEM_ID) ?: return
                 fetchCoins(coinId)
             }
+        }
+
+        if (savedInstanceState == null) {
+            configureMedia()
         }
     }
 
@@ -91,7 +94,6 @@ class ItemDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
@@ -127,16 +129,16 @@ class ItemDetailFragment : Fragment() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                inputUsd.setText(coin?.let { convertToUsd(s, it.current_price) })
+                inputUsd.setText(coin?.let { convertToUsd(s.toString(), it.current_price) })
             }
         })
 
         return rootView
     }
 
-    private fun convertToUsd(amount: CharSequence, rate: Double): String {
+    private fun convertToUsd(amount: String, rate: Double): String {
         if (amount.isNotEmpty()) {
-            val usd = Integer.parseInt(amount.toString()) * rate
+            val usd = (amount.toDouble()) * rate
             return formatNumber(usd)
         }
         return ""
